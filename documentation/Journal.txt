@@ -1,0 +1,66 @@
+15/06/2026:
+Entry 1 - Data Acquisition
+
+	> Downloaded historical and modern Elective Surgery datasets from the Queensland Open Data Portal.
+	> Separated dataset by Specialty and Category
+	> Identified that historical files were supplied in multiple formats (.xls and .csv).
+	> Standardised all files to .csv format to simplify analysis.
+
+
+------------------------------------------------------------
+Entry 2  - Initial Data Investigation
+
+	> Imported the documented column description and standardised all dataset with same column descriptions.
+	> During validation, discovered that some datasets included an unnecessary column which simply stated the column number.
+	> Removed unnecessary column and moved data value using PowerQuery
+
+
+------------------------------------------------------------
+22/06/2026:
+Entry 3 - 
+	
+	> Compiled all historical data (before 2020) into one master.csv
+	> Compiled all modern data (post 2020) into one master.csv
+	> Compiled both historical master dataset and modern master dataset into a finalised dataset.
+	> The final two datasets include records from October 2015 to September 2025, separated by clinical specialty and urgency category.
+
+
+------------------------------------------------------------
+Entry 4 - 
+
+	> During validation, found that facility names were different from the historical dataset to the modern dataset.
+	> Implemented a data-cleaning pipeline in Power Query to isolate up-to-date naming structures.
+	> Evaluated real-world reporting shifts and infrastructure evolution to establish star-schema architecture rules:
+	> Preserved separate entries for co-located public and private entities (e.g., Sunshine Coast University Code 32 vs. Sunshine Coast University Private Code 1217) to prevent private elective waitlists from skewing public performance reporting metrics.
+	> Standardised the clinical speciality descriptions derived from AIHW national standards into clear, dashboard-ready Title Case string fields for Power BI front-end consumption.
+
+
+------------------------------------------------------------
+23/06/2026:
+Entry 5 - Initial SQL Validation
+
+	> Created PostgreSQL schema tables for the final Specialty and Category datasets.
+	> Imported both cleaned datasets into PostgreSQL for analytical querying.
+	> Performed initial data quality validation, including record counts, duplicate detection, missing value checks, data range verification, and validation of percentage and volume fields.
+	> Confirmed the datasets were suitable for exploratory analysis and subsequent Power BI integration.
+
+
+------------------------------------------------------------
+27/06/2026:
+Entry 6 - Exploratory Analysis
+
+	> Investigated Pillar One of Project Two.
+	> Began development of the Power BI dashboard by defining the report structure, planning visualisations for each analytical pillar, and preparing the data model for interactive reporting.
+
+
+------------------------------------------------------------
+29/06/2026:
+Entry 8 - Power BI Dashboard Development
+
+	> Completed development of a three-page interactive Power BI dashboard consisting of an Executive Summary, Capacity & Operational Performance, and Clinical Performance & Timeliness.
+	> Developed custom DAX measures for key performance indicators, including Total Patients Waiting, Total Patients Treated, Total Long Wait Patients, Average % Treated in Time, Average % Waiting in Time, and the Backlog Pressure Index.
+	> Designed interactive visualisations using clustered column charts, line charts, scatter plots, treemaps, and ranked bar charts to analyse elective surgery performance by specialty and urgency category.
+	> Implemented slicers, conditional formatting, and dynamic filtering to improve dashboard interactivity and support executive-level reporting.
+	> Performed final validation of dashboard calculations and visual outputs, ensuring consistency with SQL analysis and preparing the project for GitHub publication.
+
+

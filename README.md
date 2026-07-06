@@ -237,7 +237,7 @@ Potential future enhancements include:
 
 # 👨‍💻 Author
 
-**Gem Tin**
+**Jeric Tindungan**
 
 Registered Nurse transitioning into Clinical Data Analytics.
 

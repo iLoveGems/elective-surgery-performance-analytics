@@ -104,7 +104,7 @@ SQL analysis was organised into three analytical pillars.
 Additional SQL scripts included:
 
 - Data Quality Checks
-- Executive KPI calculations
+- Schema
 
 <img src="images/03_sql_pillar3_query.png" width="900">
 

@@ -1,199 +1,163 @@
-# 🏥 Queensland Elective Surgery Performance Analytics
+# Queensland Elective Surgery Performance Analytics (2015–2025)
 
-An end-to-end healthcare analytics project using **PostgreSQL**, **Power BI**, **Power Query**, and **DAX** to analyse Queensland elective surgery demand, treatment timeliness, waiting list performance, and operational backlog across Queensland public hospitals between **2015 and 2025**.
+## Project Overview
 
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
-![SQL](https://img.shields.io/badge/SQL-CC2927?style=for-the-badge&logo=microsoftsqlserver&logoColor=white)
-![Power BI](https://img.shields.io/badge/Power_BI-F2C811?style=for-the-badge&logo=powerbi&logoColor=black)
-![Power Query](https://img.shields.io/badge/Power_Query-217346?style=for-the-badge&logo=microsoft-excel&logoColor=white)
-![DAX](https://img.shields.io/badge/DAX-FFB900?style=for-the-badge)
-![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github)
+This project analyses ten years of Queensland elective surgery data to investigate statewide demand, treatment performance, waiting list growth, and operational backlog across Queensland public hospitals.
 
----
+Using PostgreSQL, SQL, Power Query, and Power BI, publicly available Queensland Health datasets were transformed into a validated analytical dataset before being explored through a series of SQL analyses and interactive dashboards.
 
-# 📖 Project Overview
+The project focuses on three key business questions:
 
-Queensland Health publishes statewide elective surgery performance data to monitor patient demand, treatment timeliness, and operational capacity across public hospitals.
-
-This project transforms raw public datasets into an interactive business intelligence solution by applying an end-to-end analytics workflow involving data preparation, SQL analysis, data modelling, and dashboard development.
-
-The final Power BI dashboard provides executives with an intuitive way to monitor elective surgery demand, identify specialties experiencing operational pressure, evaluate treatment performance, and explore waiting list trends across Queensland Health facilities.
-
----
-
-# 🎯 Business Problem
-
-Healthcare organisations require timely insights into elective surgery performance to ensure patients receive treatment within clinically recommended timeframes while maintaining sustainable waiting lists.
-
-This project answers several key business questions:
-
-- Which specialties have the largest waiting lists?
-- Which facilities experience the greatest operational backlog?
-- Are patients being treated within recommended timeframes?
-- Which urgency categories contribute most to long waiting lists?
 - How has elective surgery demand changed over time?
+- Are patients receiving treatment within recommended timeframes?
+- Which specialties and urgency categories contribute most to waiting list pressure?
 
 ---
 
-# 📂 Dataset
+## Project Architecture
 
-**Source:** Queensland Government Open Data Portal
+The project follows a complete analytics workflow:
 
-Datasets used:
-
-- Elective Surgery by Clinical Specialty
-- Elective Surgery by Urgency Category
-
-Reporting period:
-
-**October 2015 – September 2025**
+```
+Queensland Open Data
+        │
+        ▼
+ Power Query (ETL)
+        │
+        ▼
+ PostgreSQL Database
+        │
+        ▼
+ SQL Analysis
+        │
+        ▼
+ Power BI Dashboard
+```
 
 ---
 
-# 🔄 Project Workflow
+## Data Engineering
 
-## 1. Data Preparation
+Historical datasets were downloaded from the Queensland Government Open Data Portal.
 
-Raw datasets were imported into **Power Query**, where data quality issues were addressed before loading into PostgreSQL.
+Because the files were supplied across multiple reporting periods, they contained inconsistencies in file format, column structure, facility naming conventions, and reporting standards. Power Query was used to prepare a consistent analytical dataset.
 
-Tasks included:
+The data preparation process included:
 
-- Removing duplicate and unnecessary columns
-- Creating Year, Quarter and Month fields
+- Converting Excel files into a consistent CSV format
+- Combining historical and current reporting periods
 - Standardising facility names
-- Building Health Service lookup tables
-- Preparing clean analytical datasets
+- Removing unnecessary columns
+- Creating Year, Quarter and Month fields
+- Validating data types
+- Cleaning invalid records
+- Preparing separate Specialty and Urgency Category datasets
 
-<img src="images/01_power_query_cleaning_steps.png" width="900">
+The final cleaned datasets were exported for SQL analysis.
 
----
+![Power Query Workflow](images/01_power_query_cleaning_steps.png)
 
-## 2. Clean Dataset
-
-Following transformation, clean datasets were prepared for SQL analysis.
-
-<img src="images/02_cleaned_master_dataset_excel.png" width="900">
-
----
-
-## 3. SQL Analysis
-
-SQL analysis was organised into three analytical pillars.
-
-### Pillar 1 — Statewide Demand & Capacity
-
-- Patient waiting volumes
-- Treatment activity
-- Facility performance
-- Trend analysis
-
-### Pillar 2 — Treatment Performance
-
-- Percentage treated within recommended time
-- Percentage waiting within recommended time
-- Urgency category performance
-- Clinical timeliness
-
-### Pillar 3 — Operational Backlog
-
-- Long wait patients
-- Facility backlog
-- Specialty backlog
-- Custom Backlog Pressure Index
-
-Additional SQL scripts included:
-
-- Data Quality Checks
-- Schema
-
-<img src="images/03_sql_pillar3_query.png" width="900">
+*Figure 1. Power Query data preparation workflow.*
 
 ---
 
-## 4. Power BI Data Model
+![Cleaned Dataset](images/02_cleaned_master_dataset_excel.png)
 
-The final dashboard was developed using a relational data model linking specialty and urgency datasets through a hospital reference table.
-
-Separate statewide tables were created to support executive KPI reporting while maintaining interactive filtering across specialty and facility analyses.
-
-<img src="images/04_powerbi_data_model.png" width="900">
+*Figure 2. Final analytical dataset.*
 
 ---
 
-# 📊 Dashboard
+## Database Validation
 
-## Executive Summary
+The cleaned datasets were imported into PostgreSQL for validation and analysis.
 
-Provides a statewide overview of elective surgery performance including:
+Validation queries were used to confirm:
 
-- Total Patients Waiting
-- Total Patients Treated
-- Long Wait Patients
-- Average Treatment Performance
-- Backlog Pressure Index
+- Record counts
+- Date ranges
+- Duplicate records
+- Missing values
+- Percentage ranges
+- Volume totals
+
+These checks ensured the analytical datasets were suitable for dashboard reporting.
+
+![SQL Analysis](images/03_sql_pillar3_query.png)
+
+*Figure 3. Example SQL analysis.*
+
+---
+
+## Data Model
+
+Power BI was connected to PostgreSQL using a relational data model.
+
+Separate fact tables were created for Specialty and Urgency Category reporting, while dimension tables supported interactive filtering across facilities, Health Services and reporting periods.
+
+![Power BI Data Model](images/04_powerbi_data_model.png)
+
+*Figure 4. Power BI data model.*
+
+---
+
+## Analytical Framework
+
+The project was organised into three analytical pillars.
+
+### Pillar One — Statewide Demand & Capacity
+
+**Business Question**
+
+How has elective surgery demand changed across Queensland?
+
+This section examines:
+
+- Total patients waiting
+- Total patients treated
 - Waiting list trends
-- Highest demand specialties
-- Highest demand facilities
+- Facility performance
+- Specialty demand
 
-<img src="images/05_dashboard_pillar1_exec_sum.png" width="900">
-
----
-
-## Capacity & Operational Performance
-
-Focuses on specialty-level operational demand.
-
-Visualisations include:
-
-- Waiting vs Treated by Specialty
-- Backlog Pressure by Specialty
-- Treatment Performance vs Backlog Pressure
-- Long Wait Patient Distribution
-
-<img src="images/06_dashboard_pillar2_capacity_operational_perf.png" width="900">
+![Dashboard 1](images/05_dashboard_pillar1_exec_sum.png)
 
 ---
 
-## Clinical Performance & Timeliness
+### Pillar Two — Capacity & Operational Performance
 
-Examines treatment performance by urgency category.
+**Business Question**
 
-Visualisations include:
+Which specialties are experiencing the greatest operational pressure?
 
-- Treatment Timeliness
-- Patients Waiting by Urgency
-- Long Wait Patients
-- Ready vs Not Ready for Surgery
-- Treatment Timeliness Trend
+This dashboard investigates:
 
-<img src="images/07_dashboard_pillar3_clinical_perf_timeliness.png" width="900">
+- Waiting versus treated patients
+- Backlog Pressure Index
+- Treatment performance
+- Long wait patient distribution
 
----
-
-# 💡 Key Insights
-
-- Orthopaedic Surgery consistently maintained the largest statewide waiting list.
-- ENT and Orthopaedic Surgery recorded the highest Backlog Pressure Index values.
-- Category 2 and Category 3 patients contributed most to long waiting lists.
-- Treatment performance varied considerably between urgency categories.
-- Interactive filtering enables users to investigate trends by Health Service, Year, Facility, and Specialty.
+![Dashboard 2](images/06_dashboard_pillar2_capacity_operational_perf.png)
 
 ---
 
-# 🛠 Technologies Used
+### Pillar Three — Clinical Performance & Timeliness
 
-- PostgreSQL
-- SQL
-- Power BI
-- Power Query
-- DAX
-- Microsoft Excel
-- Git
-- GitHub
+**Business Question**
+
+Are patients receiving treatment within clinically recommended timeframes?
+
+This section analyses:
+
+- Treatment performance by urgency category
+- Waiting patients by urgency
+- Long wait patients
+- RFS versus Non-RFS waiting lists
+- Treatment performance trends
+
+![Dashboard 3](images/07_dashboard_pillar3_clinical_perf_timeliness.png)
 
 ---
 
-# 📁 Repository Structure
+## Repository Structure
 
 ```
 elective-surgery-performance-analytics
@@ -208,37 +172,26 @@ elective-surgery-performance-analytics
 
 ---
 
-# 📚 Skills Demonstrated
+## Technical Skills
 
+This project demonstrates practical experience in:
+
+- SQL
+- PostgreSQL
+- Power Query
+- Power BI
+- DAX
 - Data Cleaning
-- Data Transformation
-- SQL Query Development
-- Relational Data Modelling
+- Data Validation
+- Data Modelling
+- Dashboard Development
 - Healthcare Analytics
-- Business Intelligence
-- Dashboard Design
-- DAX Measures
-- Executive Reporting
-- Data Storytelling
+- Data Visualisation
 
 ---
 
-# 🚀 Future Improvements
+## About
 
-Potential future enhancements include:
+This project forms part of my healthcare analytics portfolio while transitioning from Registered Nurse to Clinical Data Analyst.
 
-- Predictive modelling for elective surgery demand
-- Automated dashboard refresh using live datasets
-- Facility-level drill-through reporting
-- Additional operational KPIs and benchmarking
-- Performance forecasting using time series analysis
-
----
-
-# 👨‍💻 Author
-
-**Jeric Tindungan**
-
-Registered Nurse transitioning into Clinical Data Analytics.
-
-This project was completed as part of my healthcare analytics portfolio, demonstrating end-to-end data analysis using SQL and Power BI.
+It demonstrates the complete workflow of preparing, validating, analysing, and visualising healthcare data to support operational decision-making.
